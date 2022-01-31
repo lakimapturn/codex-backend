@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-
-class User(AbstractUser, models.Model):
-    owns_dog = models.BooleanField(default=False, null=False, blank=False)
     
 class Dog(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False, default="")
@@ -12,7 +9,9 @@ class Dog(models.Model):
     age = models.IntegerField(null=False, blank=False, default=1)
     breed = models.CharField(max_length=100, null=False, blank=False, default="")
     vaccinated = models.BooleanField(null=False, blank=False, default=False)
-    owned_by = models.ForeignKey(User, null=False, blank=False, default="", on_delete=models.CASCADE)
+
+class User(AbstractUser, models.Model):
+    dog_owned = models.ForeignKey(Dog, null=True, default="", blank=True, on_delete=models.CASCADE)
 
 class Response(models.Model):
     response = models.IntegerField(null=False, blank=False, default="")
