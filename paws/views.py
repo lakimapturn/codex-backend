@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
@@ -29,6 +30,39 @@ class CustomAuthToken(ObtainAuthToken):
 			'token': token.key,
 			'user': serializer.data
         })
+
+class RegistrationAPI(APIView):
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        username = request.data["username"]
+        firstName = request.data["first_name"]
+        lastName = request.data["last_name"]
+        password = request.data["password"]
+        email = request.data["email"]
+
+        dog_name = request.data["dog_name"]
+        dog_breed = request.data["dog_breed"]
+        dog_age = request.data["dog_age"]
+        dog_picture = request.data["dog_image"]
+        dog_vaccinated = request.data["dog_vaccinated"]
+        dog_microchipped = request.data["dog_vaccinated"]
+
+        dog = Dog.objects.create(
+            name = dog_name, 
+            age = dog_age, 
+            breed = dog_breed, 
+            picture = dog_picture, 
+            vaccinated = dog_vaccinated, 
+            microchipped = dog_microchipped
+        )
+
+        try: 
+            user = User.objects.create_user(username = username, email = email, password = password, first_name = firstName, last_name = lastName, dog_owned = dog)
+            user.save()
+        except IntegrityError as err:
+            print(err)
+            return Response("Username Already Exists!", status=status.HTTP_406_NOT_ACCEPTABLE)
+        return Response(user, status=status.HTTP_201_CREATED)
 
 class DogAPI(APIView):
     @csrf_exempt

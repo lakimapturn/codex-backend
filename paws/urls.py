@@ -9,7 +9,8 @@ urlpatterns = [
     path('foods', views.FoodsAPI.as_view(), name="foodsAPI"),
     path('auth', views.CustomAuthToken.as_view(), name="authAPI"),
     path('question-response', views.QuestionAPI.as_view(), name="q&aAPI"),
-    path('answer', views.AnswerAPI.as_view(), name="answerAPI")
+    path('answer', views.AnswerAPI.as_view(), name="answerAPI"),
+    path("register", views.RegistrationAPI.as_view(), name="registrationAPI")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

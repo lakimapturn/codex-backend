@@ -14,7 +14,7 @@ class Task(models.Model):
 
 class Dog(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False, default="")
-    profile_picture = models.ImageField(null=False, blank=False, default="")
+    picture = models.ImageField(null=True, blank=True, default="")
     age = models.IntegerField(null=False, blank=False, default=1)
     breed = models.CharField(max_length=100, null=False, blank=False, default="")
     vaccinated = models.BooleanField(null=False, blank=False, default=False)
