@@ -115,10 +115,22 @@ class QuestionAPI(APIView):
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(id = request.data['user'])
+            question = Question.objects.create(question = request.data['question'], asked_by = user)
+            question.save()
+            queryset = Question.objects.all()
+            serializer = QuestionSerializer(queryset, many=True)
+
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class AnswerAPI(APIView):
     @csrf_exempt
     def post(self, request, *args, **kwargs):
-        print(request.data['user'], request.data['question'], request.data['answer'])
         try:
             user = User.objects.get(id = request.data['user'])
             question = Question.objects.get(id = request.data['question'])
