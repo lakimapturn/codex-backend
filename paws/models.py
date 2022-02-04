@@ -47,12 +47,14 @@ class Question(models.Model):
         return self.question
 
 class Food(models.Model):
-    name = models.CharField(max_length=100, null=False, blank=False, default="")
+    age_group = models.CharField(max_length=1, choices=(('A', "Adult"), ('P', "Puppy")), null=False, blank=False)
+    ingredients = models.CharField(max_length=100, null=False, blank=False, default="")
     breed = models.CharField(max_length=100, null=False, blank=False)
-    rating = models.IntegerField(null=False, blank=False, default=0)
+    rating = models.DecimalField(null=False, blank=False, default=0, max_digits=2, decimal_places=1)
     brand = models.CharField(max_length=255, null=False, blank=False, default="")
     brand_logo = models.ImageField(null=False, blank=False, default="")
     price = models.CharField(max_length=100, null=False, blank=False, default="")
+    url = models.URLField(null=False, blank=False, default="")
 
     def __str__(self):
         return self.name
