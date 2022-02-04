@@ -47,7 +47,7 @@ class Question(models.Model):
         return self.question
 
 class Food(models.Model):
-    age_group = models.CharField(max_length=1, choices=(('A', "Adult"), ('P', "Puppy")), null=False, blank=False)
+    age_group = models.CharField(max_length=1, choices=(('A', "Adult"), ('P', "Puppy")), null=False, blank=False, default="")
     ingredients = models.CharField(max_length=100, null=False, blank=False, default="")
     breed = models.CharField(max_length=100, null=False, blank=False)
     rating = models.DecimalField(null=False, blank=False, default=0, max_digits=2, decimal_places=1)
