@@ -38,7 +38,6 @@ class RegistrationAPI(APIView):
         firstName = request.data["first_name"]
         lastName = request.data["last_name"]
         password = request.data["password"]
-        email = request.data["email"]
 
         dog_name = request.data["dog_name"]
         dog_breed = request.data["dog_breed"]
@@ -57,12 +56,12 @@ class RegistrationAPI(APIView):
         )
 
         try: 
-            user = User.objects.create_user(username = username, email = email, password = password, first_name = firstName, last_name = lastName, dog_owned = dog)
+            user = User.objects.create_user(username = username, password = password, first_name = firstName, last_name = lastName, dog_owned = dog)
             user.save()
         except IntegrityError as err:
             print(err)
             return Response("Username Already Exists!", status=status.HTTP_406_NOT_ACCEPTABLE)
-        return Response(user, status=status.HTTP_201_CREATED)
+        return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
 
 class DogAPI(APIView):
     @csrf_exempt
