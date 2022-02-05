@@ -76,8 +76,11 @@ class DogAPI(APIView):
 class UsersAPI(APIView):
     @csrf_exempt
     def get(self, request, *args, **kwargs):
-        pass
+        user = User.objects.get(id = request.query_params["user"])
+        serializer = UserSerializer(user)
 
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        
     @csrf_exempt 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST': # If the user is attempting to login this function runs
@@ -91,6 +94,23 @@ class UsersAPI(APIView):
 
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class TasksAPI(APIView):
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(id = request.data["user"])
+            if request.data["task"] == "vaccinated":
+                user.dog_owned.vaccinated = True
+            elif request.data["task"] == "microchipped":
+                user.dog_owned.microchipped = True
+            user.save()
+            
+            serializer = UserSerializer(user)
+
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class FoodsAPI(APIView):
     @csrf_exempt
@@ -146,4 +166,4 @@ class AnswerAPI(APIView):
 
 
 def index(request):
-    return HttpResponse("Hello!")
+    return HttpResponse("Codex Paws Website Backend!")

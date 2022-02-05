@@ -52,7 +52,7 @@ class Food(models.Model):
     breed = models.CharField(max_length=100, null=False, blank=False)
     rating = models.DecimalField(null=False, blank=False, default=0, max_digits=2, decimal_places=1)
     brand = models.CharField(max_length=255, null=False, blank=False, default="")
-    brand_logo = models.ImageField(null=False, blank=False, default="")
+    brand_logo = models.ImageField(null=True, blank=True, default="")
     price = models.CharField(max_length=100, null=False, blank=False, default="")
     url = models.URLField(null=False, blank=False, default="")
 
