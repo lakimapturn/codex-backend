@@ -57,4 +57,4 @@ class Food(models.Model):
     url = models.URLField(null=False, blank=False, default="")
 
     def __str__(self):
-        return self.name
+        return self.brand
