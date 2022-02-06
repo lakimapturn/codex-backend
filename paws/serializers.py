@@ -30,4 +30,4 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = '__all__'
-        depth = 2
+        depth = 3
